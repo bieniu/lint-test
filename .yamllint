@@ -1,6 +1,8 @@
 config_data: |
   extends: default
   rules:
+    document-start:
+      level: disable
     new-line-at-end-of-file:
       level: warning
     trailing-spaces:
