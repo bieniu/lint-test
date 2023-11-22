@@ -3,3 +3,11 @@ repos:
     rev: v1.33.0
     hooks:
       - id: yamllint
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-json
+      - id: no-commit-to-branch
+        args:
+          - --branch=main
+          - --branch=master
