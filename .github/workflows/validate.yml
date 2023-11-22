@@ -1,0 +1,15 @@
+name: Config Validation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3.1.1
+        with:
+          config_file: .yamllint.yml
