@@ -1,15 +1,19 @@
 name: Config Validation
 
 on:
-  push:
   pull_request:
 
-jobs:
-  yaml-lint:
-    runs-on: ubuntu-latest
+permissions:
+  contents: read
 
+jobs:
+  lint:
+    name: Linters
+    runs-on: ubuntu-latest
     steps:
-      - name: YAML Lint
-        uses: ibiqlik/action-yamllint@v3.1.1
-        with:
-          config_file: .yamllint.yml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+      - run: pip install yamllint
+      - run: yamllint --strict $(git ls-files '*.yaml' '*.yml')
