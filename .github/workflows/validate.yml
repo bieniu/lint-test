@@ -1,4 +1,4 @@
-name: Config Validation
+name: YAML Validation
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   lint:
-    name: Linters
+    name: YAML Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,3 +17,5 @@ jobs:
         uses: actions/setup-python@v4
       - run: pip install yamllint
       - run: yamllint --strict $(git ls-files '*.yaml' '*.yml')
+      - run: pip install jsonlint
+      - run: jsonlint $(git ls-files '*.json')
