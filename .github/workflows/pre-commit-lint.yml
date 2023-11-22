@@ -1,16 +1,20 @@
-name: pre-commit Lint
+name: pre-commit Config Validation
 
 on:
   pull_request:
 
 jobs:
   lint:
-    name: YAML Lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
-      - run: pip install pre-commit
-      - run: pre-commit run --hook-stage manual yamllint --all-files
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - name: Run yamllint
+        run: pre-commit run --hook-stage manual yamllint --all-files
+      - name: Run check-json
+        run: pre-commit run --hook-stage manual check-json --all-files
