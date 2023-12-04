@@ -11,3 +11,9 @@ repos:
         args:
           - --branch=main
           - --branch=master
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.27.2
+    hooks:
+      - id: check-yaml-schema
+        types: [yaml]
+        args: ["--schemafile", "schemas/brands_config.json"]
