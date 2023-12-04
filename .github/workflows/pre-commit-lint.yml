@@ -18,3 +18,5 @@ jobs:
         run: pre-commit run --hook-stage manual yamllint --all-files
       - name: Run check-json
         run: pre-commit run --hook-stage manual check-json --all-files
+      - name: Run check-yaml-schema
+        run: pre-commit run --hook-stage manual check-yaml-schema --all-files
