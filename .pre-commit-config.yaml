@@ -16,4 +16,4 @@ repos:
     hooks:
       - id: check-yaml-schema
         types: [yaml]
-        args: ["--schemafile", "schemas/brands_config.json"]
+        args: ["--schemafile", "brands_config_schema.json"]
