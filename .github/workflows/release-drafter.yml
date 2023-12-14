@@ -19,8 +19,8 @@ jobs:
         run: |
           VERSION=$(awk -F= '/^version=/{print $2}' version.properties)
           IFS='.' read -r -a BASE_VERSION <<< "${VERSION}"
-          echo "BASE_MAJOR=${BASE_VERSION}" >> $GITHUB_ENV
-          echo "BASE_MINOR=${BASE_VERSION}" >> $GITHUB_ENV
+          echo "BASE_MAJOR=${BASE_VERSION[0]}" >> $GITHUB_ENV
+          echo "BASE_MINOR=${BASE_VERSION[1]}" >> $GITHUB_ENV
 
       - name: Get last release version
         id: get_last_version
