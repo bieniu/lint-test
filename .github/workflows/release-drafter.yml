@@ -37,7 +37,7 @@ jobs:
         run: |
           LAST_PATCH=${{ env.LAST_PATCH }}
           NEW_PATCH=$((LAST_PATCH + 1))
-          NEW_VERSION="${env.LAST_MAJOR}.${env.LAST_MINOR}.${NEW_PATCH}"
+          NEW_VERSION="${{ env.LAST_MAJOR }}.${{ env.LAST_MINOR }}.${NEW_PATCH}"
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
 
       - name: Create new major version
