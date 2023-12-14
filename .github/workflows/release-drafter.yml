@@ -1,0 +1,54 @@
+name: Release Drafter
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    name: Release Drafter
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Read version from file
+        id: read_version
+        run: |
+          VERSION=$(awk -F= '/^version=/{print $2}' version.properties)
+          IFS='.' read -r -a BASE_VERSION <<< "${VERSION}"
+          echo "BASE_VERSION=${BASE_VERSION}" >> $GITHUB_ENV
+
+      - name: Get last release version
+        id: get_last_version
+        run: |
+          VERSION=$(git describe --tags --abbrev=0)
+          IFS='.' read -r -a LAST_VERSION <<< "${VERSION}"
+          echo "LAST_VERSION=${LAST_VERSION}" >> $GITHUB_ENV
+
+      - name: Increment patch version
+        id: increment_version
+        if: ${{ env.BASE_VERSION[0] == env.LAST_VERSION[0] && env.BASE_VERSION[1] == env.LAST_VERSION[1] }}
+        run: |
+          PATCH="${LAST_VERSION[2]}"
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="${env.LAST_VERSION[0]}.${env.LAST_VERSION[1]}.${PATCH}"
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+
+      - name: Create new major version
+        id: new_major_version
+        if: ${{ env.BASE_VERSION[0] != env.LAST_VERSION[0] || env.BASE_VERSION[1] != env.LAST_VERSION[1] }}
+        run: |
+          PATCH="0"
+          NEW_VERSION="${env.BASE_VERSION[0]}.${env.BASE_VERSION[1]}.${PATCH}"
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          
+      - name: Run Release Drafter
+        uses: release-drafter/release-drafter@v5.25.0
+        with:
+          tag: ${{ env.NEW_VERSION }}
+          name: Version ${{ env.NEW_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
