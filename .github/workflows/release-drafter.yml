@@ -35,7 +35,9 @@ jobs:
         id: increment_version
         if: ${{ env.BASE_MAJOR == env.LAST_MAJOR && env.BASE_MINOR == env.LAST_MINOR }}
         run: |
-          NEW_VERSION="${env.LAST_MAJOR}.${env.LAST_MINOR}.${env.LAST_PATCH + 1}"
+          LAST_PATCH=${{ env.LAST_PATCH }}
+          NEW_PATCH=$((LAST_PATCH + 1))
+          NEW_VERSION="${env.LAST_MAJOR}.${env.LAST_MINOR}.${NEW_PATCH}"
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
 
       - name: Create new major version
