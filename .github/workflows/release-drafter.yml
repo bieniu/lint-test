@@ -6,6 +6,8 @@ on:
       - main
 jobs:
   update_release_draft:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     name: Release Drafter
     steps:
@@ -52,5 +54,6 @@ jobs:
         with:
           tag: ${{ env.NEW_VERSION }}
           name: Version ${{ env.NEW_VERSION }}
+          disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
