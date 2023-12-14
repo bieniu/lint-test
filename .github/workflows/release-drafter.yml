@@ -19,30 +19,31 @@ jobs:
         run: |
           VERSION=$(awk -F= '/^version=/{print $2}' version.properties)
           IFS='.' read -r -a BASE_VERSION <<< "${VERSION}"
-          echo "BASE_VERSION=${BASE_VERSION}" >> $GITHUB_ENV
+          echo "BASE_MAJOR=${BASE_VERSION}" >> $GITHUB_ENV
+          echo "BASE_MINOR=${BASE_VERSION}" >> $GITHUB_ENV
 
       - name: Get last release version
         id: get_last_version
         run: |
           VERSION=$(git describe --tags --abbrev=0)
           IFS='.' read -r -a LAST_VERSION <<< "${VERSION}"
-          echo "LAST_VERSION=${LAST_VERSION}" >> $GITHUB_ENV
+          echo "LAST_MAJOR=${LAST_VERSION[0]}" >> $GITHUB_ENV
+          echo "LAST_MINOR=${LAST_VERSION[1]}" >> $GITHUB_ENV
+          echo "LAST_PATCH=${LAST_VERSION[2]}" >> $GITHUB_ENV
 
       - name: Increment patch version
         id: increment_version
-        if: ${{ env.BASE_VERSION[0] == env.LAST_VERSION[0] && env.BASE_VERSION[1] == env.LAST_VERSION[1] }}
+        if: ${{ env.BASE_MAJOR == env.LAST_MAJOR && env.BASE_MINOR == env.LAST_MINOR }}
         run: |
-          PATCH="${LAST_VERSION[2]}"
-          PATCH=$((PATCH + 1))
-          NEW_VERSION="${env.LAST_VERSION[0]}.${env.LAST_VERSION[1]}.${PATCH}"
+          PATCH=$((env.LAST_PATCH + 1))
+          NEW_VERSION="${env.LAST_MAJOR}.${env.LAST_MINOR}.${PATCH}"
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
 
       - name: Create new major version
         id: new_major_version
         if: ${{ env.BASE_VERSION[0] != env.LAST_VERSION[0] || env.BASE_VERSION[1] != env.LAST_VERSION[1] }}
         run: |
-          PATCH="0"
-          NEW_VERSION="${env.BASE_VERSION[0]}.${env.BASE_VERSION[1]}.${PATCH}"
+          NEW_VERSION="${env.BASE_MAJOR}.${env.BASE_MINOR}.0"
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           
       - name: Run Release Drafter
