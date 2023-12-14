@@ -44,7 +44,7 @@ jobs:
         id: new_major_version
         if: ${{ env.BASE_VERSION[0] != env.LAST_VERSION[0] || env.BASE_VERSION[1] != env.LAST_VERSION[1] }}
         run: |
-          NEW_VERSION="${env.BASE_MAJOR}.${env.BASE_MINOR}.0"
+          NEW_VERSION="${{ env.BASE_MAJOR }}.${{ env.BASE_MINOR }}.0"
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           
       - name: Run Release Drafter
