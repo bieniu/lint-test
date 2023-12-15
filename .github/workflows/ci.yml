@@ -1,0 +1,33 @@
+name: Validation
+
+on:
+  pull_request:
+
+env:
+  DEFAULT_PYTHON: "3.11"
+
+jobs:
+  prepare:
+    name: Prepare environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v4
+        
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON }}
+          check-latest: true
+          
+      - name: Install pre-commit
+        run: pip install pre-commit
+        
+      - name: Install pre-commit dependencies
+        run: pre-commit install-hooks
+        
+      - name: Check out code from GitHub
+        uses: actions/checkout@v4
+        
+      - name: Run check-jsonschema
+        run: pre-commit run --hook-stage manual check-jsonschema --all-files
