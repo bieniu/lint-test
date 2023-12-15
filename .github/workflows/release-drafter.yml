@@ -50,6 +50,7 @@ jobs:
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
           
       - name: Run Release Drafter
+        if: ${{ success() }}
         uses: release-drafter/release-drafter@v5.25.0
         with:
           tag: ${{ env.NEW_VERSION }}
