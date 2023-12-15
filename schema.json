@@ -1,43 +1,42 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "filenames": {
-      "type": "object",
-      "properties": {
-        "report_name": {
-          "entity_1": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "filenames": {
             "type": "object",
             "properties": {
-              "max_limit": {
-                "type": "integer",
-                "minimum": {
-                  "$data": "1/min_limit"
+                "report_name": {
+                    "type": "object",
+                    "properties" : {
+                        "entity_1": {
+                            "type": "object",
+                            "properties": {
+                                "max_limit": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                },
+                                "min_limit": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                }
+                            }
+                        },
+                        "entity_2": {
+                            "type": "object",
+                            "properties": {
+                                "max_limit": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                },
+                                "min_limit": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                }
+                            }
+                        }
+                    }
                 }
-              },
-              "min_limit": {
-                "type": "integer",
-                "minimum": 0
-              }
             }
-          },
-          "entity_2": {
-            "type": "object",
-            "properties": {
-              "max_limit": {
-                "type": "integer",
-                "minimum": {
-                  "$data": "1/min_limit"
-                }
-              },
-              "min_limit": {
-                "type": "integer",
-                "minimum": 0
-              }
-            }
-          }
         }
-      }
     }
-  }
 }
