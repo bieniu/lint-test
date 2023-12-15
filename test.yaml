@@ -2,7 +2,7 @@ filenames:
   report_name:
     entity_1:
       max_limit: 40
-      min_limit: 2
+      min_limit: 200
     entity_2:
       max_limit: 2
       min_limit: 0
