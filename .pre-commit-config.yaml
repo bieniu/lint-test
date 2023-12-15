@@ -16,5 +16,5 @@ repos:
     hooks:
       - id: check-jsonschema
         types: [yaml]
-        files: ^test.json$
+        files: ^test.yaml$
         args: ["--schemafile", "schema.json"]
